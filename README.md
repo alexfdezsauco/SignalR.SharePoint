@@ -6,7 +6,7 @@ The goal of this project is provide you a SharePoint deployment package to  auto
 
 The only thing you have to do is:
 
-1) Build this sources or direct download SignalR.SharePoint.wsp.
+1) Build this sources or direct download [SignalR.SharePoint.wsp](https://onedrive.live.com/redir?resid=ADEB7E738B27F26C!123&authkey=!AB7lL3MQVas4LNw&ithint=file%2cwsp).
 
 2) Install the SignalR distributed assemblies the web application bin directory from Powershell console:
 
@@ -14,7 +14,7 @@ The only thing you have to do is:
     >Add-SPSolution (Resolve-Path .\SignalR.SharePoint.wsp)
     >Install-SPSolution SignalR.SharePoint.wsp -WebApplication $WebAppUrl -GACDeployment -FullTrustBinDeployment -Force
 
-3) Enable [SignalR SharePoint Configuration Feature] - in the web application scope - in order to modify the web.config for run-time assembly binding redirection, set legacyCasModel to false (allow dynamic calls) and set the owin:AutomaticAppStartup application setting key to false.
+3) Enable [SignalR SharePoint Configuration Feature] - in the web application scope - in order to modify the web.config for run-time assembly binding redirection, set legacyCasModel to false (allow dynamic calls) and set the owin:AutomaticAppStartup application setting key to false
 
     ...
        <trust level="Full" originUrl="" legacyCasModel="false" />
