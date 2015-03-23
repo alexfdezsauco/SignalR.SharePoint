@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project version='8' encrypted='1'>
+	<steps type='0'>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>Project steps</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>Input</name>
+		</step>
+		<step action='Set Macro'>
+			<MacroName>WORKSPACE</MacroName>
+			<MacroValue>%PROJDIR%\..\..\</MacroValue>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condexpr>WORKSPACE</condexpr>
+			<indent type='3'>2</indent>
+			<name>Set Workspace</name>
+		</step>
+		<step action='Set Macro'>
+			<MacroName>PROJECT_NAME</MacroName>
+			<MacroValue>SignalR.SharePoint</MacroValue>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>PROJECT_NAME</condexpr>
+			<indent type='3'>2</indent>
+			<name>Set Project Name</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>Version: %VERSION_NUMBER%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%VERSION_NUMBER%</condexpr>
+			<description>The version number must match with the following format: MajorVersion.MinorVersion.BuildNumber</description>
+			<indent type='3'>2</indent>
+			<name>Prompt version number</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>Version: %BUILD_CONFIGURATION%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%BUILD_CONFIGURATION%</condexpr>
+			<description>The version number must match with the following format: MajorVersion.MinorVersion.BuildNumber</description>
+			<indent type='3'>2</indent>
+			<name>Prompt build configuration</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>Package Restore: %PACKAGE_RESTORE%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%PACKAGE_RESTORE%</condexpr>
+			<description>The package restore option should be true or false.</description>
+			<indent type='3'>2</indent>
+			<name>Prompt package restore option</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>RunTests: %RUN_TESTS%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%RUN_TESTS%</condexpr>
+			<description>The run tests option should be true or false.</description>
+			<indent type='3'>2</indent>
+			<name>Prompt run tests option</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>Pack: %PACK%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%PACK%</condexpr>
+			<description>The package restore option should be true or false.</description>
+			<indent type='3'>2</indent>
+			<name>Prompt pack option</name>
+		</step>
+		<step action='Log Message'>
+			<Level type='3'>4</Level>
+			<Message>Sonar Integration: %SONAR_INTEGRATION%</Message>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%SONAR_INTEGRATION%</condexpr>
+			<description>The sonar integration option should be true or false.</description>
+			<indent type='3'>2</indent>
+			<name>Prompt sonar integration option</name>
+		</step>
+		<step action='PowerShell'>
+			<CmdStr><![CDATA[if(-not ("%VERSION_NUMBER%" -match "\d+.\d+.\d+.\d+"))
+{
+	throw "Incorrect version number format '%VERSION_NUMBER%'."
+}
+
+if(-not ("%BUILD_CONFIGURATION%" -match "Release|Debug"))
+{
+	throw "Incorrect build configuration '%BUILD_CONFIGURATION%' should be 'Release' or 'Debug'."
+}
+
+if(-not ("%PACKAGE_RESTORE%" -match "True|False"))
+{
+	throw "Incorrect value for package restore option '%PACKAGE_RESTORE%' should be 'true' or 'false'."
+}
+
+if(-not ("%PACK%" -match "True|False"))
+{
+	throw "Incorrect value for pack option '%PACK%' should be 'true' or 'false'."
+}
+
+if(-not ("%RUN_TESTS%" -match "True|False"))
+{
+	throw "Incorrect value for pack option '%RUN_TESTS%' should be 'true' or 'false'."
+}
+
+if(-not ("%SONAR_INTEGRATION%" -match "True|False"))
+{
+	throw "Incorrect value for sonar integration option '%SONAR_INTEGRATION%' should be 'true' or 'false'."
+}]]></CmdStr>
+			<CmdType type='3'>1</CmdType>
+			<NoInteract type='11'>-1</NoInteract>
+			<NoLogo type='11'>-1</NoLogo>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>Validate parameters</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>Tools</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condexpr>%PACKAGE_RESTORE%</condexpr>
+			<indent type='3'>2</indent>
+			<name>NuGet</name>
+		</step>
+		<step action='Set Macro'>
+			<MacroName>NUGET_COMMAND_LINE_VERSION</MacroName>
+			<MacroValue>2.8.0</MacroValue>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%NUGET_COMMAND_LINE_VERSION%</condexpr>
+			<indent type='3'>3</indent>
+			<name>Set NUGET_COMMAND_LINE_VERSION</name>
+		</step>
+		<step action='HTTP'>
+			<CertLocation type='3'>1</CertLocation>
+			<Compression type='11'>-1</Compression>
+			<Encoding type='3'>1</Encoding>
+			<GetFile>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%.nupkg</GetFile>
+			<Percent>10</Percent>
+			<Protocol type='3'>2</Protocol>
+			<Server>nexus.datys.cu</Server>
+			<Timeout>30</Timeout>
+			<TransferType type='3'>1</TransferType>
+			<URL>/service/local/repositories/nuget-3rdparty/content/NuGet.CommandLine/%NUGET_COMMAND_LINE_VERSION%/NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%.nupkg</URL>
+			<Version>1.1</Version>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Get NuGet Command Line package</name>
+		</step>
+		<step action='UNZIP Files'>
+			<Ansi type='11'>-1</Ansi>
+			<Dest>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%</Dest>
+			<LogDetail type='11'>-1</LogDetail>
+			<PathInfo type='11'>-1</PathInfo>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%.nupkg</Source>
+			<UNTAR type='11'>-1</UNTAR>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>UNZIP NuGet Command Line package</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%WORKSPACE%\src\.nuget</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%\tools\NuGet.exe</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Copy NuGet to .nuget directory</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>1</condcomparison>
+			<condexpr>%TFS_PROJECT_COLLECTION_URL%</condexpr>
+			<indent type='3'>2</indent>
+			<name>NUnit4TFS</name>
+		</step>
+		<step action='Set Macro'>
+			<MacroName>NUnit4TFS_COMMAND_LINE_VERSION</MacroName>
+			<MacroValue>2.0.0-Alpha-1</MacroValue>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%NUnit4TFS_COMMAND_LINE_VERSION%</condexpr>
+			<indent type='3'>3</indent>
+			<name>Set NUnit4TFS Command Line Version</name>
+		</step>
+		<step action='HTTP'>
+			<CertLocation type='3'>1</CertLocation>
+			<Compression type='11'>-1</Compression>
+			<Encoding type='3'>1</Encoding>
+			<GetFile>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%.nupkg</GetFile>
+			<Percent>10</Percent>
+			<Protocol type='3'>2</Protocol>
+			<Server>nexus.datys.cu</Server>
+			<Timeout>30</Timeout>
+			<TransferType type='3'>1</TransferType>
+			<URL>/service/local/repositories/nuget-3rdparty/content//NUnit4TeamBuild/%NUnit4TFS_COMMAND_LINE_VERSION%/NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%.nupkg</URL>
+			<Version>1.1</Version>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Get NUnit4TFS Command Line package</name>
+		</step>
+		<step action='UNZIP Files'>
+			<Ansi type='11'>-1</Ansi>
+			<Dest>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%</Dest>
+			<LogDetail type='11'>-1</LogDetail>
+			<PathInfo type='11'>-1</PathInfo>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%.nupkg</Source>
+			<UNTAR type='11'>-1</UNTAR>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>UNZIP NUnit4TFS Command Line package</name>
+		</step>
+		<step action='Replace in File'>
+			<FileIn>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%\tools\NUnitTfs.exe.config</FileIn>
+			<FileOut>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%\tools\NUnitTfs.exe.config</FileOut>
+			<Find>http://teamfoundation:8080/tfs/</Find>
+			<NoModS type='11'>-1</NoModS>
+			<Replace>%TFS_PROJECT_COLLECTION_URL%</Replace>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Update Nuit4TFS Configuration</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>SONAR</name>
+		</step>
+		<step action='Set Macro'>
+			<MacroName>SONNAR_RUNNER_VERSION</MacroName>
+			<MacroValue>2.0</MacroValue>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>0</condcomparison>
+			<condexpr>%SONNAR_RUNNER_VERSION%</condexpr>
+			<indent type='3'>3</indent>
+			<name>Set SONNAR_RUNNER_VERSION</name>
+		</step>
+		<step action='HTTP'>
+			<CertLocation type='3'>1</CertLocation>
+			<Compression type='11'>-1</Compression>
+			<Encoding type='3'>1</Encoding>
+			<GetFile>%WORKSPACE%\tools\sonar-runner-%SONNAR_RUNNER_VERSION%.zip</GetFile>
+			<Percent>10</Percent>
+			<Protocol type='3'>2</Protocol>
+			<Server>nexus.datys.cu</Server>
+			<Timeout>30</Timeout>
+			<TransferType type='3'>1</TransferType>
+			<URL>service/local/repositories/central/content/org/codehaus/sonar-plugins/sonar-runner/2.0/sonar-runner-%SONNAR_RUNNER_VERSION%.zip</URL>
+			<Version>1.1</Version>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Get SONAR-RUNNER package</name>
+		</step>
+		<step action='UNZIP Files'>
+			<Action type='3'>2</Action>
+			<Ansi type='11'>-1</Ansi>
+			<Dest>%WORKSPACE%\tools\</Dest>
+			<LogDetail type='11'>-1</LogDetail>
+			<PathInfo type='11'>-1</PathInfo>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%WORKSPACE%\tools\sonar-runner-%SONNAR_RUNNER_VERSION%.zip</Source>
+			<UNTAR type='11'>-1</UNTAR>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>UNZIP SONAR-RUNNER package</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>Build</name>
+		</step>
+		<step action='Delete Folder'>
+			<Path>%WORKSPACE%\output</Path>
+			<Recurse type='11'>-1</Recurse>
+			<ShowCmd type='11'>-1</ShowCmd>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<continueonfail type='3'>1</continueonfail>
+			<indent type='3'>2</indent>
+			<name>Clean output directory</name>
+		</step>
+		<step action='Process Files'>
+			<FileExtensions>packages.config</FileExtensions>
+			<FilePath>%WORKSPACE%\src</FilePath>
+			<FileRecurse type='11'>-1</FileRecurse>
+			<HideOn type='11'>-1</HideOn>
+			<SysOn type='11'>-1</SysOn>
+			<condcomparison type='3'>6</condcomparison>
+			<condexpr>%PACKAGE_RESTORE%</condexpr>
+			<indent type='3'>2</indent>
+			<name>Process package.config files</name>
+		</step>
+		<step action='NuGet'>
+			<Command>install</Command>
+			<Exe>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%\tools\NuGet.exe</Exe>
+			<OutputDirectory>%PROJDIR%\..\..\lib</OutputDirectory>
+			<PackageId>%PROCFILES_FULLPATH%</PackageId>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Install</name>
+		</step>
+		<step action='Process Files'>
+			<FileExtensions>*.Template.xml</FileExtensions>
+			<FilePath>%WORKSPACE%\src</FilePath>
+			<FileRecurse type='11'>-1</FileRecurse>
+			<HideOn type='11'>-1</HideOn>
+			<SysOn type='11'>-1</SysOn>
+			<condexpr>%VersionNumber%</condexpr>
+			<indent type='3'>2</indent>
+			<name>Process *.Template.xml files</name>
+		</step>
+		<step action='PowerShell'>
+			<CmdStr><![CDATA[	$xml = New-Object XML
+	try
+	{
+		$xml.Load("%PROCFILES_FULLPATH%") 
+	}
+	catch [[System.Xml.XmlException]]
+	{
+	}
+	
+	if(($xml.DocumentElement -ne $null) -and ($xml.DocumentElement.Name -eq "Feature"))
+	{
+		$feature = $xml.DocumentElement
+
+		if($feature.HasAttribute("Version"))
+		{
+			$feature.Attributes.RemoveNamedItem("Version") | Out-Null
+		}
+		
+		$attribute = $xml.CreateAttribute("Version")
+		$attribute.Value = "%VERSION_NUMBER%"
+		$feature.Attributes.Append($attribute) | Out-Null
+		
+		$xml.Save("%PROCFILES_FULLPATH%")
+		
+		Write-Host "Updated feature version"
+	}
+	else
+	{
+		Write-Host "Skipped - No feature file"
+	}
+]]></CmdStr>
+			<CmdType type='3'>1</CmdType>
+			<NoInteract type='11'>-1</NoInteract>
+			<NoLogo type='11'>-1</NoLogo>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Updating feature version number</name>
+		</step>
+		<step action='Process Files'>
+			<FileExtensions>AssemblyInfo.cs</FileExtensions>
+			<FilePath>%WORKSPACE%\src</FilePath>
+			<FileRecurse type='11'>-1</FileRecurse>
+			<HideOn type='11'>-1</HideOn>
+			<SysOn type='11'>-1</SysOn>
+			<checked type='11'>0</checked>
+			<condexpr>%VersionNumber%</condexpr>
+			<indent type='3'>2</indent>
+			<name>Process AssemblyInfo.cs files</name>
+		</step>
+		<step action='Run Program'>
+			<checked type='11'>0</checked>
+			<command>cmd /c copy /Y "%PROCFILES_FULLPATH%" "%PROCFILES_FULLPATH%.backup"</command>
+			<indent type='3'>3</indent>
+			<name>Create backup of AssemblyInfo.cs</name>
+			<outputfrom type='3'>1</outputfrom>
+			<redirinopt type='3'>2</redirinopt>
+			<redirinstr>copy /y </redirinstr>
+		</step>
+		<step action='Replace in File'>
+			<FileIn>%PROCFILES_FULLPATH%</FileIn>
+			<FileOut>%PROCFILES_FULLPATH%</FileOut>
+			<Find>(\[[assembly:\s+AssemblyVersion\()"[[^)]]+(\)\]])</Find>
+			<NoModS type='11'>-1</NoModS>
+			<Replace>$1"%VERSION_NUMBER%"$2</Replace>
+			<checked type='11'>0</checked>
+			<indent type='3'>3</indent>
+			<name>Update Assembly version</name>
+		</step>
+		<step action='Replace in File'>
+			<FileIn>%PROCFILES_FULLPATH%</FileIn>
+			<FileOut>%PROCFILES_FULLPATH%</FileOut>
+			<Find>(\[[assembly:\s+AssemblyFileVersion\()"[[^)]]+(\)\]])</Find>
+			<NoModS type='11'>-1</NoModS>
+			<Replace>$1"%VERSION_NUMBER%"$2</Replace>
+			<checked type='11'>0</checked>
+			<indent type='3'>3</indent>
+			<name>Update Assembly file version</name>
+		</step>
+		<step action='MSBuild'>
+			<Exe>c:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe</Exe>
+			<Options>/nologo /p:Configuration=%BUILD_CONFIGURATION% /m</Options>
+			<ProjectFile>%PROJDIR%\..\..\src\%PROJECT_NAME%.sln</ProjectFile>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>Build project solution</name>
+		</step>
+		<step action='Process Files'>
+			<FileExtensions>*.csproj</FileExtensions>
+			<FilePath>%WORKSPACE%\src</FilePath>
+			<FileRecurse type='11'>-1</FileRecurse>
+			<HideOn type='11'>-1</HideOn>
+			<SysOn type='11'>-1</SysOn>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>Process SharePoint projects</name>
+		</step>
+		<step action='MSBuild'>
+			<Exe>c:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe</Exe>
+			<Options><![CDATA[/nologo /p:Configuration=%BUILD_CONFIGURATION% /t:Package /p:BasePackagePath=%WORKSPACE%\output\wsp\%PROCFILES_FILE_DIR%
+]]></Options>
+			<ProjectFile>%PROCFILES_FULLPATH%</ProjectFile>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Pack project</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>Pack</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>SharePoint Solutions Deployment Packages</name>
+		</step>
+		<step action='Loop'>
+			<Type type='3'>1</Type>
+			<Value>SignalR.SharePoint</Value>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>3</indent>
+			<name>Foreach deplyoment package to build</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>4</indent>
+			<name>NuGet pack</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\</DestDir>
+			<Ext><![CDATA[%LOOP_VALUE%.WSP.nuspec
+*.ps1]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%WORKSPACE%\deployment\nuget\SharePoint\%LOOP_VALUE%.WSP\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>5</indent>
+			<name>Copy nuspec file</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\content</DestDir>
+			<Ext>%LOOP_VALUE%.wsp</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%WORKSPACE%\output\wsp\%LOOP_VALUE%\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>5</indent>
+			<name>Copy content</name>
+		</step>
+		<step action='Replace in File'>
+			<FileIn>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\%LOOP_VALUE%.WSP.nuspec</FileIn>
+			<FileOut>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\%LOOP_VALUE%.WSP.nuspec</FileOut>
+			<Find>%%VERSION_NUMBER%%</Find>
+			<NoModS type='11'>-1</NoModS>
+			<Replace>%VERSION_NUMBER%</Replace>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>5</indent>
+			<name>Update package version</name>
+		</step>
+		<step action='NuGet'>
+			<Command>pack</Command>
+			<Exe>%WORKSPACE%\tools\NuGet.CommandLine-%NUGET_COMMAND_LINE_VERSION%\tools\NuGet.exe</Exe>
+			<OutputDirectory>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\</OutputDirectory>
+			<PackageId>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\%LOOP_VALUE%.WSP.nuspec</PackageId>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condexpr>%PACK%</condexpr>
+			<indent type='3'>5</indent>
+			<name>Pack</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%WORKSPACE%\output\nuget\SharePoint\%LOOP_VALUE%.WSP\</DestDir>
+			<Ext>%LOOP_VALUE%.WSP.%VERSION_NUMBER%.nupkg</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%WORKSPACE%\output\nuget-pkg\SharePoint\%LOOP_VALUE%.WSP\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>5</indent>
+			<name>Copy nuget file</name>
+		</step>
+		<step action='Write File'>
+			<Encoding>UTF-8</Encoding>
+			<Filename>%WORKSPACE%\output\nuget\packages.config</Filename>
+			<Text><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package id="SignalR.SharePoint.WSP" version="1.0.0" />  
+</packages>]]></Text>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>2</indent>
+			<name>Write packages.config</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<condcompareto>true</condcompareto>
+			<condcomparison type='3'>3</condcomparison>
+			<condexpr>%RUN_TESTS%</condexpr>
+			<indent type='3'>1</indent>
+			<name>Test</name>
+		</step>
+		<step action='NUnit'>
+			<Assembly>%WORKSPACE%\output\bin\%BUILD_CONFIGURATION%\Tests\si-SICA.Tests\si-SICA.Tests.dll</Assembly>
+			<ExePath>c:\Program Files (x86)\NUnit\bin\nunit-console.exe</ExePath>
+			<Framework>net-4.0</Framework>
+			<NoShort type='11'>-1</NoShort>
+			<XmlFile>%WORKSPACE%\output\TestResult.xml</XmlFile>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<indent type='3'>2</indent>
+			<name>NUnit</name>
+		</step>
+		<step action='Run Program'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<command>%WORKSPACE%\tools\NUnit4TeamBuild-%NUnit4TFS_COMMAND_LINE_VERSION%\tools\NUnitTfs.exe -n "%WORKSPACE%\output\TestResult.xml" -t "%TFS_PROJECT_NAME%" -f "%BUILD_CONFIGURATION%" -p "Any" -b "%PROJECT_NAME%-%VERSION_NUMBER%" -v 2010</command>
+			<condcomparison type='3'>1</condcomparison>
+			<condexpr>%TFS_PROJECT_NAME%</condexpr>
+			<indent type='3'>2</indent>
+			<name>Publish Test Result 2 TFS</name>
+			<outputfrom type='3'>1</outputfrom>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<condcomparison type='3'>6</condcomparison>
+			<condexpr>%SONAR_INTEGRATION%</condexpr>
+			<indent type='3'>1</indent>
+			<name>SONAR</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%WORKSPACE%\tools\sonar-runner-%SONNAR_RUNNER_VERSION%\conf</DestDir>
+			<Ext>sonar-runner.properties</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%WORKSPACE%\src\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<indent type='3'>2</indent>
+			<name>Copy SONAR-RUNNER properties</name>
+		</step>
+		<step action='Replace in File'>
+			<FileIn>%WORKSPACE%\src\sonar-project.properties</FileIn>
+			<FileOut>%WORKSPACE%\src\sonar-project.properties</FileOut>
+			<Find>sonar.projectVersion=(.+)</Find>
+			<NoModS type='11'>-1</NoModS>
+			<Replace>sonar.projectVersion=%VERSION_NUMBER%</Replace>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<indent type='3'>2</indent>
+			<name>Update SONAR project version</name>
+		</step>
+		<step action='Run Program'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<command>%WORKSPACE%\tools\sonar-runner-%SONNAR_RUNNER_VERSION%\bin\sonar-runner.bat</command>
+			<indent type='3'>2</indent>
+			<name>Run SONAR</name>
+			<startin>%WORKSPACE%\src</startin>
+			<wait type='11'>0</wait>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<indent type='3'>1</indent>
+			<name>Clean Up</name>
+		</step>
+		<step action='Rename Files'>
+			<Dir>..\..\src</Dir>
+			<Ext>AssemblyInfo.cs.backup</Ext>
+			<Find>AssemblyInfo.cs.backup</Find>
+			<FirstOnly type='11'>-1</FirstOnly>
+			<HideOn type='11'>-1</HideOn>
+			<LogRenamed type='11'>-1</LogRenamed>
+			<Overwrite type='11'>-1</Overwrite>
+			<Recurse type='11'>-1</Recurse>
+			<Replace>AssemblyInfo.cs</Replace>
+			<SysOn type='11'>-1</SysOn>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<checked type='11'>0</checked>
+			<indent type='3'>2</indent>
+			<name>Revert AssemblyInfo.cs files changes</name>
+		</step></steps>
+</project>

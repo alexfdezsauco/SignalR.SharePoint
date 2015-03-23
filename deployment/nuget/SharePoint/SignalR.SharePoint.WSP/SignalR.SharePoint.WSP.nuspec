@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SignalR.SharePoint.WSP</id>
+    <version>%VERSION_NUMBER%</version>
+    <authors>alexander.fernandez</authors>
+    <owners>alexander.fernandez</owners>
+	<!--
+	    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+	    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+	    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+	-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SharePoint deployment package for ArtefactosBaseColaboracion</description>
+	<!--    
+	  <releaseNotes>Summary of changes made in this release of the package.</releaseNotes> 
+	-->
+    <copyright>Copyright 2014</copyright>
+    <tags>SignalR.SharePoint SharePoint2013</tags>
+  </metadata>
+</package>
