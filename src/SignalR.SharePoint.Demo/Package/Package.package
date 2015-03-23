@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="ad651d99-8f86-4ce5-aa0b-2b44381a4fc9" solutionId="ad651d99-8f86-4ce5-aa0b-2b44381a4fc9" resetWebServer="false" sharePointProductVersion="15.0" name="SignalR.SharePoint.Demo" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <projectItems>
+    <projectItemReference itemId="2c658589-99c8-418c-a0c2-982fd5f3e6c5" />
+  </projectItems>
+</package>
