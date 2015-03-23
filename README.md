@@ -1,6 +1,6 @@
 # SignalR.SharePoint
 
-There are a few steps to enable SignalR into a web application. But how do this for a SharePoint based web application? 
+There are few steps to enable SignalR into a web application. But how do this for a SharePoint based web application? 
 
 The goal of this project is provide you a SharePoint deployment package to  automate such steps for a SharePoint web application.
 
